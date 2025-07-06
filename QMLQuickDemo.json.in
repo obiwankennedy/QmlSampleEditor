@@ -1,0 +1,14 @@
+{
+    "Id" : "qmlquickdemo",
+    "Name" : "QMLQuickDemo",
+    "Version" : "0.0.1",
+    "CompatVersion" : "0.0.1",
+    "Vendor" : "Rolisteam",
+    "VendorId" : "rolisteam",
+    "Copyright" : "(C) Rolisteam",
+    "License" : "Put short license information here",
+    "Description" : "Put a short description of your plugin here",
+    "Url" : "https://www.rolisteam.org",
+    "DocumentationUrl" : "",
+    ${IDE_PLUGIN_DEPENDENCIES}
+}
