@@ -87,7 +87,10 @@ private:
     void triggerAction()
     {
         if(!m_window)
+        {
             m_window.reset(new QuickQMLTester);
+            m_window->makeUiReady();
+        }
         m_window->show();
     }
 private:

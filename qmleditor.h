@@ -2,8 +2,9 @@
 #define QMLEDITOR_H
 
 #include <texteditor/texteditor.h>
+#include <qmljseditor/qmljseditor.h>
 
-class QmlEditor : public TextEditor::TextEditorWidget
+class QmlEditor : public QmlJSEditor::QmlJSEditorWidget
 {
 public:
     QmlEditor();

@@ -18,7 +18,15 @@ QuickQMLTester::QuickQMLTester(QWidget *parent)
     , ui(new Ui::QuickQMLTester)
 {
     ui->setupUi(this);
+}
 
+QuickQMLTester::~QuickQMLTester()
+{
+    delete ui;
+}
+
+void QuickQMLTester::makeUiReady()
+{
     auto document = new QmlJSEditor::QmlJSEditorDocument(Utils::Id());
 
     m_document.reset(document);
@@ -29,12 +37,14 @@ QuickQMLTester::QuickQMLTester(QWidget *parent)
     layout->addWidget(m_editor);
     m_editor->setTextDocument(m_document);
 
+    m_editor->finalizeInitialization();
+
     ui->m_qmlCodeEdit->setLayout(layout);
 
     connect(ui->m_qmlViewer, &QQuickWidget::sceneGraphError, this, [this](QQuickWindow::SceneGraphError error, const QString &message)
-    {
-        writeLog(message);
-    });
+            {
+                writeLog(message);
+            });
 
     connect(m_editor, &TextEditor::TextEditorWidget::textChanged, this, [this](){
         // run in qtConcurrent
@@ -65,11 +75,8 @@ QuickQMLTester::QuickQMLTester(QWidget *parent)
 
         }
     });
-}
 
-QuickQMLTester::~QuickQMLTester()
-{
-    delete ui;
+
 }
 
 void QuickQMLTester::writeLog(const QString &msg, LogLevel level)
