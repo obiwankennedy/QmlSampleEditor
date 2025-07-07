@@ -22,6 +22,8 @@ public:
     explicit QuickQMLTester(QWidget *parent = nullptr);
     ~QuickQMLTester();
 
+    void makeUiReady();
+
 
 private slots:
     void writeLog(const QString& msg, LogLevel level = ErrorLevel);
