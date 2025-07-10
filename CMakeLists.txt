@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(QtCreator REQUIRED COMPONENTS Core TextEditor QmlJS QmlJSEditor )
+find_package(QtCreator REQUIRED COMPONENTS Core TextEditor QmlJS QmlJSEditor QmlJSTools LanguageClient)
 find_package(Qt6 COMPONENTS Widgets QuickWidgets REQUIRED)
 
 # Add a CMake option that enables building your plugin with tests.
@@ -32,11 +32,15 @@ if(WITH_TESTS)
   enable_testing()
 endif()
 
+
+
 add_qtc_plugin(QMLQuickDemo
   PLUGIN_DEPENDS
     QtCreator::Core
     QtCreator::TextEditor
     QtCreator::QmlJSEditor
+    QtCreator::QmlJSTools
+    QtCreator::LanguageClient
   DEPENDS
     Qt::Widgets
     Qt::QuickWidgets
@@ -51,9 +55,21 @@ add_qtc_plugin(QMLQuickDemo
     qmlquickdemoconstants.h
     qmlquickdemotr.h
     quickqmltester.h
+    qmlhighlighter.cpp
+    qmlhighlighter.h
     quickqmltester.cpp
     quickqmltester.ui
 )
+
+qt_add_resources(QMLQuickDemo "dico"
+  PREFIX
+      "dico"
+  FILES
+    assets/javascript.txt
+    assets/keywords.txt
+    assets/properties.txt
+    assets/properties.txt
+    assets/qml.txt)
 
 target_sources(QMLQuickDemo
   PRIVATE

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSet>
 #include <texteditor/textdocument.h>
+#include <languageclient/languageclientmanager.h>
 #include "qmleditor.h"
 
 namespace Ui {
