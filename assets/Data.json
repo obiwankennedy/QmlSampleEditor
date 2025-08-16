@@ -2,17 +2,17 @@
     "people": [
         {
             "firstname":"Paul",
-            "firstname":"Atreid",
+            "lastname":"Atreid",
             "age":"17"
         },
         {
             "firstname":"Jessica",
-            "firstname":"Atreid",
+            "lastname":"Atreid",
             "age":"49"
         },
         {
             "firstname":"Duncan",
-            "firstname":"Idaho",
+            "lastname":"Idaho",
             "age":"25"
         }
     ],
