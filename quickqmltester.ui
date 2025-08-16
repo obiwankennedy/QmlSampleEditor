@@ -49,19 +49,212 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuExamples">
+    <property name="title">
+     <string>Examples</string>
+    </property>
+    <widget class="QMenu" name="menuAnimation">
+     <property name="title">
+      <string>Animation</string>
+     </property>
+     <addaction name="m_01Act"/>
+     <addaction name="m_02Act"/>
+     <addaction name="m_03Act"/>
+     <addaction name="m_04Act"/>
+     <addaction name="m_05Act"/>
+     <addaction name="m_06Act"/>
+     <addaction name="m_07Act"/>
+    </widget>
+    <widget class="QMenu" name="menuGames">
+     <property name="title">
+      <string>Games</string>
+     </property>
+     <addaction name="m_08Act"/>
+     <addaction name="m_09Act"/>
+    </widget>
+    <widget class="QMenu" name="menuImage">
+     <property name="title">
+      <string>Image</string>
+     </property>
+     <addaction name="m_10Act"/>
+     <addaction name="m_11Act"/>
+    </widget>
+    <widget class="QMenu" name="menuModel">
+     <property name="title">
+      <string>Model</string>
+     </property>
+     <addaction name="actionJSon_Model"/>
+     <addaction name="actionListModel_ListElement"/>
+    </widget>
+    <widget class="QMenu" name="menuRandom">
+     <property name="title">
+      <string>Random</string>
+     </property>
+     <addaction name="actionBinding"/>
+     <addaction name="actionCanvas_Advanced"/>
+     <addaction name="actionGridLayout"/>
+     <addaction name="actionRepeater"/>
+     <addaction name="actionSearch_Regex_match"/>
+     <addaction name="actiontaphandler"/>
+     <addaction name="actionText_Format"/>
+    </widget>
+    <widget class="QMenu" name="menuShaders">
+     <property name="title">
+      <string>Shaders</string>
+     </property>
+     <addaction name="actionShader_Effect_Pixelated"/>
+     <addaction name="actionShader_Effect"/>
+    </widget>
+    <widget class="QMenu" name="menuKirigami">
+     <property name="title">
+      <string>Views</string>
+     </property>
+     <addaction name="actionFooter"/>
+     <addaction name="actionPush_pop_clear"/>
+     <addaction name="actionSimple_chat"/>
+    </widget>
+    <addaction name="menuAnimation"/>
+    <addaction name="menuGames"/>
+    <addaction name="menuImage"/>
+    <addaction name="menuModel"/>
+    <addaction name="menuRandom"/>
+    <addaction name="menuShaders"/>
+    <addaction name="menuKirigami"/>
+   </widget>
+   <addaction name="menuExamples"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="m_01Act">
+   <property name="text">
+    <string>Anchor Animation</string>
+   </property>
+  </action>
+  <action name="m_02Act">
+   <property name="text">
+    <string>Anchor Changes</string>
+   </property>
+  </action>
+  <action name="m_03Act">
+   <property name="text">
+    <string>Animated Image</string>
+   </property>
+  </action>
+  <action name="m_04Act">
+   <property name="text">
+    <string>Animated Sprite</string>
+   </property>
+  </action>
+  <action name="m_05Act">
+   <property name="text">
+    <string>Animation Easing Type</string>
+   </property>
+  </action>
+  <action name="m_06Act">
+   <property name="text">
+    <string>Rotation Animation</string>
+   </property>
+  </action>
+  <action name="m_07Act">
+   <property name="text">
+    <string>Sequential Animation</string>
+   </property>
+  </action>
+  <action name="m_08Act">
+   <property name="text">
+    <string>Game 1</string>
+   </property>
+  </action>
+  <action name="m_09Act">
+   <property name="text">
+    <string>Game 2</string>
+   </property>
+  </action>
+  <action name="m_10Act">
+   <property name="text">
+    <string>Images On PathView</string>
+   </property>
+  </action>
+  <action name="m_11Act">
+   <property name="text">
+    <string>Images in GridView</string>
+   </property>
+  </action>
+  <action name="actionJSon_Model">
+   <property name="text">
+    <string>JSon Model</string>
+   </property>
+  </action>
+  <action name="actionListModel_ListElement">
+   <property name="text">
+    <string>ListModel/ListElement</string>
+   </property>
+  </action>
+  <action name="actionBinding">
+   <property name="text">
+    <string>Binding</string>
+   </property>
+  </action>
+  <action name="actionCanvas_Advanced">
+   <property name="text">
+    <string>Canvas Advanced</string>
+   </property>
+  </action>
+  <action name="actionGridLayout">
+   <property name="text">
+    <string>GridLayout</string>
+   </property>
+  </action>
+  <action name="actionRepeater">
+   <property name="text">
+    <string>Repeater</string>
+   </property>
+  </action>
+  <action name="actionSearch_Regex_match">
+   <property name="text">
+    <string>Search/Regex match</string>
+   </property>
+  </action>
+  <action name="actiontaphandler">
+   <property name="text">
+    <string>Taphandler</string>
+   </property>
+  </action>
+  <action name="actionText_Format">
+   <property name="text">
+    <string>Text Format</string>
+   </property>
+  </action>
+  <action name="actionShader_Effect_Pixelated">
+   <property name="text">
+    <string>Shader Effect Pixelated</string>
+   </property>
+  </action>
+  <action name="actionShader_Effect">
+   <property name="text">
+    <string>Shader Effect</string>
+   </property>
+  </action>
+  <action name="actionFooter">
+   <property name="text">
+    <string>StackView</string>
+   </property>
+  </action>
+  <action name="actionPush_pop_clear">
+   <property name="text">
+    <string>Swipe View</string>
+   </property>
+  </action>
+  <action name="actionSimple_chat">
+   <property name="text">
+    <string>Simple chat (SplitView)</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
    <header location="global">QtQuickWidgets/QQuickWidget</header>
-  </customwidget>
-  <customwidget>
-   <class>TextEditor::TextEditorWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">texteditor/texteditor.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

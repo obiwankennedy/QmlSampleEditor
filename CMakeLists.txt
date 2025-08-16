@@ -12,8 +12,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(QtCreator REQUIRED COMPONENTS Core TextEditor QmlJS QmlJSEditor QmlJSTools LanguageClient)
-find_package(Qt6 COMPONENTS Widgets QuickWidgets REQUIRED)
+find_package(QtCreator REQUIRED COMPONENTS Core TextEditor QmlJS QmlJSEditor QmlJSTools LanguageClient ShaderTools)
+find_package(Qt6 COMPONENTS Widgets QuickWidgets ShaderTools  REQUIRED)
 
 # Add a CMake option that enables building your plugin with tests.
 # You don't want your released plugin binaries to contain tests,
@@ -69,12 +69,50 @@ qt_add_resources(QMLQuickDemo "dico"
     assets/keywords.txt
     assets/properties.txt
     assets/properties.txt
-    assets/qml.txt)
+    assets/qml.txt
+  assets/qmlexamples/01_anchor_animation.qml
+  assets/qmlexamples/02_anchor_changes.qml
+assets/qmlexamples/03_animated_image.qml
+assets/qmlexamples/04_animated_sprite.qml
+assets/qmlexamples/05_animated_easing_type.qml
+assets/qmlexamples/06_rotation_animation.qml
+assets/qmlexamples/07_sequential_animation.qml
+assets/qmlexamples/08_game_01.qml
+assets/qmlexamples/09_game_02.qml
+assets/qmlexamples/10_blend_image.qml
+assets/qmlexamples/11_brightness_and_conrtast.qml
+assets/qmlexamples/12_json_model.qml
+assets/qmlexamples/13_listmodel.qml
+assets/qmlexamples/14_binding.qml
+assets/qmlexamples/15_canvas.qml
+assets/qmlexamples/16_gridlayout.qml
+assets/qmlexamples/17_repeater.qml
+assets/qmlexamples/18_search.qml
+assets/qmlexamples/19_taphandler.qml
+assets/qmlexamples/20_text_format.qml
+assets/qmlexamples/21_shader_effect_pixelated.qml
+assets/qmlexamples/22_shader_effect.qml
+assets/qmlexamples/23_footer.qml
+assets/qmlexamples/24_push.qml
+assets/qmlexamples/25_simplechat.qml
+assets/Data.json
+assets/sprites.png
+)
+
+qt6_add_shaders(QMLQuickDemo "example_shaders"
+PREFIX
+"/"
+FILES
+assets/blackandwhite.frag
+assets/blackandwhite.vert
+assets/pixelize.frag
+assets/pixelize.vert
+)
 
 target_sources(QMLQuickDemo
   PRIVATE
     qmleditor.h qmleditor.cpp
-)
+    assets/Data.json)
 
 # Enable the Run button in Qt Creator
 get_target_property(QtCreatorCorePath QtCreator::Core LOCATION)
