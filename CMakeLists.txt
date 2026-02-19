@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.24)
 
 # Remove when sharing with others.
-list(APPEND CMAKE_PREFIX_PATH "/home/renaud/applications/mine/qt-creator/build/Desktop_Qt_6_8_3-release")
+list(APPEND CMAKE_PREFIX_PATH "/home/renaud/applications/mine/qt-creator/build/Desktop_Qt_6_10_0-Debug")
 
-project(QMLQuickDemo)
+project(QMLQuickDemo VERSION 1)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -41,6 +41,7 @@ add_qtc_plugin(QMLQuickDemo
     QtCreator::QmlJSEditor
     QtCreator::QmlJSTools
     QtCreator::LanguageClient
+    QtCreator::Tasking
   DEPENDS
     Qt::Widgets
     Qt::QuickWidgets
@@ -67,7 +68,6 @@ qt_add_resources(QMLQuickDemo "dico"
   FILES
     assets/javascript.txt
     assets/keywords.txt
-    assets/properties.txt
     assets/properties.txt
     assets/qml.txt
   assets/qmlexamples/01_anchor_animation.qml
