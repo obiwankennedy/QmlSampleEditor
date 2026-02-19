@@ -5,7 +5,7 @@ Rectangle {
 
     AnimatedSprite {
         id: animation
-        source: "file:////home/renaud/applications/mine/QMLWYSIWYG/assets/sprites.png"
+        source: "qrc:/dico/assets/sprites.png"
         anchors.centerIn: parent
         width: 100
         height: 100
