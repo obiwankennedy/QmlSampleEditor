@@ -41,7 +41,6 @@ add_qtc_plugin(QMLQuickDemo
     QtCreator::QmlJSEditor
     QtCreator::QmlJSTools
     QtCreator::LanguageClient
-    QtCreator::Tasking
   DEPENDS
     Qt::Widgets
     Qt::QuickWidgets
