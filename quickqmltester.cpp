@@ -5,8 +5,10 @@
 #include <qmljseditor/qmljsautocompleter.h>
 #include <qmljseditor/qmljshoverhandler.h>
 #include <qmljseditor/qmljscompletionassist.h>
+#include <qmljseditor/qmljshoverhandler.h>
 #include <qmljstools/qmljsindenter.h>
 #include <coreplugin/editormanager/editormanager.h>
+#include <texteditor/basehoverhandler.h>
 #include "qmlhighlighter.h"
 
 #include "qmleditor.h"
@@ -56,7 +58,7 @@ void QuickQMLTester::makeUiReady()
     m_editor->setAutoCompleter(new QmlJSEditor::AutoCompleter);
     m_editor->setParenthesesMatchingEnabled(true);
     m_editor->setCodeFoldingSupported(true);
-    m_editor->addHoverHandler(new QmlJSEditor::QmlJSHoverHandler);
+    m_editor->addHoverHandler(&QmlJSEditor::qmlJSHoverHandler());
     m_document->setCompletionAssistProvider(new QmlJSEditor::QmlJSCompletionAssistProvider);
     m_document->setIndenter(QmlJSEditor::createQmlJsIndenter(m_document->document()));
 
@@ -83,7 +85,7 @@ void QuickQMLTester::makeUiReady()
         // run in qtConcurrent
         auto qmlCode = m_editor->toPlainText();
 
-        QTemporaryFile file;
+        QTemporaryFile file("File_XXXXXX.qml");
         file.setAutoRemove(false);
         if(file.open())
         {
@@ -134,6 +136,8 @@ void QuickQMLTester::makeUiReady()
     ui->actionFooter->setData(":/dico/assets/qmlexamples/23_footer.qml");
     ui->actionPush_pop_clear->setData(":/dico/assets/qmlexamples/24_push.qml");
     ui->actionSimple_chat->setData(":/dico/assets/qmlexamples/25_simplechat.qml");
+    ui->actionAnchors->setData(":/dico/assets/qmlexamples/26_anchors_center.qml");
+
 
 
     auto func = [this](){
@@ -164,6 +168,7 @@ void QuickQMLTester::makeUiReady()
     connect(ui->m_09Act, &QAction::triggered,this, func);
     connect(ui->m_10Act, &QAction::triggered,this, func);
     connect(ui->m_11Act, &QAction::triggered,this, func);
+    connect(ui->actionAnchors, &QAction::triggered,this, func);
     connect(ui->actionJSon_Model, &QAction::triggered,this, func);
     connect(ui->actionRepeater, &QAction::triggered,this, func);
     connect(ui->actionListModel_ListElement, &QAction::triggered,this, func);

@@ -113,7 +113,14 @@
      <addaction name="actionPush_pop_clear"/>
      <addaction name="actionSimple_chat"/>
     </widget>
+    <widget class="QMenu" name="menuLayout">
+     <property name="title">
+      <string>Layout</string>
+     </property>
+     <addaction name="actionAnchors"/>
+    </widget>
     <addaction name="menuAnimation"/>
+    <addaction name="menuLayout"/>
     <addaction name="menuGames"/>
     <addaction name="menuImage"/>
     <addaction name="menuModel"/>
@@ -247,6 +254,11 @@
   <action name="actionSimple_chat">
    <property name="text">
     <string>Simple chat (SplitView)</string>
+   </property>
+  </action>
+  <action name="actionAnchors">
+   <property name="text">
+    <string>Anchors</string>
    </property>
   </action>
  </widget>
