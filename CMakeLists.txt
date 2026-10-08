@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 
 # Remove when sharing with others.
-list(APPEND CMAKE_PREFIX_PATH "/home/renaud/applications/mine/qt-creator/build/Desktop_Qt_6_10_0-Debug")
+
 
 project(QMLQuickDemo VERSION 1)
 
@@ -35,6 +35,7 @@ endif()
 
 
 add_qtc_plugin(QMLQuickDemo
+  LONG_DESCRIPTION_MD README.md
   PLUGIN_DEPENDS
     QtCreator::Core
     QtCreator::TextEditor
