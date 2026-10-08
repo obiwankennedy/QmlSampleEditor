@@ -28,10 +28,10 @@ jobs:
           }
         - {
             name: "Windows Latest MSVC Arm64", artifact: "Windows-arm64",
-            os: windows-latest,
+            os: windows-11-arm,
             platform: windows_arm64,
             cc: "cl", cxx: "cl",
-            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvarsamd64_arm64.bat",
+            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvarsarm64.bat",
           }
         - {
             name: "Ubuntu Latest GCC", artifact: "Linux-x64",
@@ -41,9 +41,9 @@ jobs:
           }
         - {
             name: "Ubuntu Latest GCC Arm64", artifact: "Linux-arm64",
-            os: ubuntu-latest,
+            os: ubuntu-24.04-arm,
             platform: linux_arm64,
-            cc: "aarch64-linux-gnu-gcc", cxx: "aarch64-linux-gnu-g++"
+            cc: "gcc", cxx: "g++"
           }
         - {
             name: "macOS Latest Clang", artifact: "macOS-universal",
@@ -73,34 +73,12 @@ jobs:
     - name: Install system libs
       shell: cmake -P {0}
       run: |
-        if ("${{ matrix.config.platform }}" STREQUAL "linux_x64")
+        if ("${{ matrix.config.platform }}" MATCHES "linux")
           execute_process(
             COMMAND sudo apt-get update
           )
           execute_process(
             COMMAND sudo apt-get install -y libgl1-mesa-dev
-            RESULT_VARIABLE result
-          )
-          if (NOT result EQUAL 0)
-            message(FATAL_ERROR "Failed to install dependencies")
-          endif()
-        elseif ("${{ matrix.config.platform }}" STREQUAL "linux_arm64")
-          execute_process(COMMAND sudo dpkg --add-architecture arm64)
-
-          # TODO: Check to see if the azure.ubuntu added arm64 support
-          execute_process(COMMAND sudo apt-get install -y bash curl apt-transport-https ca-certificates)
-          execute_process(COMMAND sudo curl https://raw.githubusercontent.com/vegardit/fast-apt-mirror.sh/v1/fast-apt-mirror.sh -o /usr/local/bin/fast-apt-mirror.sh)
-          execute_process(COMMAND sudo chmod 755 /usr/local/bin/fast-apt-mirror.sh)
-
-          #execute_process(COMMAND sudo /usr/local/bin/fast-apt-mirror.sh set https://mirrors.ocf.berkeley.edu/ubuntu-ports/)
-          execute_process(COMMAND sudo /usr/local/bin/fast-apt-mirror.sh set https://mirror.kumi.systems/ubuntu-ports/)
-
-          execute_process(
-            COMMAND sudo apt-get update
-          )
-          execute_process(
-            COMMAND
-              sudo apt-get install -y crossbuild-essential-arm64 libgl1-mesa-dev:arm64
             RESULT_VARIABLE result
           )
           if (NOT result EQUAL 0)
@@ -216,12 +194,18 @@ jobs:
         endif()
 
     - name: Download Qt Creator
-      id: qt_creator
-      uses: qt-creator/install-dev-package@v2.0
+      uses: qt-creator/install-dev-package@v2.1
       with:
         version: ${{ env.QT_CREATOR_VERSION }}
         unzip-to: 'qtcreator'
         platform: ${{ matrix.config.platform }}
+
+    - name: Extract Qt Creator
+      id: qt_creator
+      shell: cmake -P {0}
+      run: |
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qtcreator" qtc_dir)
+        file(APPEND "$ENV{GITHUB_OUTPUT}" "qtc_dir=${qtc_dir}")
 
     - name: Build
       shell: cmake -P {0}
@@ -250,29 +234,21 @@ jobs:
 
         set(build_plugin_py "scripts/build_plugin.py")
         foreach(dir "share/qtcreator/scripts" "Qt Creator.app/Contents/Resources/scripts" "Contents/Resources/scripts")
-          if(EXISTS "${{ steps.qt_creator.outputs.path }}/${dir}/build_plugin.py")
+          if(EXISTS "${{ steps.qt_creator.outputs.qtc_dir }}/${dir}/build_plugin.py")
             set(build_plugin_py "${dir}/build_plugin.py")
             break()
           endif()
         endforeach()
 
-        if ("${{ matrix.config.platform }}" STREQUAL "windows_arm64")
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/windows_x64" qt_host_dir)
-          set(additional_config "--add-config=-DQT_HOST_PATH=${qt_host_dir}")
-        elseif ("${{ matrix.config.platform }}" STREQUAL "linux_arm64")
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/linux_x64" qt_host_dir)
-          set(additional_config "--add-config=-DQT_HOST_PATH=${qt_host_dir}")
-        endif()
-
         execute_process(
           COMMAND python
             -u
-            "${{ steps.qt_creator.outputs.path }}/${build_plugin_py}"
+            "${{ steps.qt_creator.outputs.qtc_dir }}/${build_plugin_py}"
             --name "$ENV{PLUGIN_NAME}-$ENV{QT_CREATOR_VERSION}-${{ matrix.config.artifact }}"
             --src .
             --build build
             --qt-path "${{ steps.qt.outputs.qt_dir }}"
-            --qtc-path "${{ steps.qt_creator.outputs.path }}"
+            --qtc-path "${{ steps.qt_creator.outputs.qtc_dir }}"
             --output-path "$ENV{GITHUB_WORKSPACE}"
             ${additional_config}
           RESULT_VARIABLE result
@@ -292,12 +268,11 @@ jobs:
 
     # The json is the same for all platforms, but we need to save one
     - name: Upload plugin json
-      if: matrix.config.platform == 'linux_x64'
+      if: matrix.config.platform == 'linux_arm64'
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.PLUGIN_NAME }}.json
         path: ./build/build/${{ env.PLUGIN_NAME }}.json
-
 
   release:
     if: contains(github.ref, 'tags/v')
@@ -330,18 +305,3 @@ jobs:
           release/${{ env.PLUGIN_NAME}}-${{ env.QT_CREATOR_VERSION }}-Windows-x64.7z
         draft: false
         prerelease: false
-
-    - name: Release on Extension Store
-      continue-on-error: true
-      uses: qt-creator/deploy-qtc-plugin@v0.3
-      with:
-        api: ${{ secrets.EXTENSION_STORE_API_URL }}
-        token: ${{ secrets.EXTENSION_STORE_API_TOKEN }}
-        publish: true
-        spec: release/${{ env.PLUGIN_NAME }}.json
-        download-url-linux-arm64: ${{ fromJSON(steps.create_release.outputs.assets)[0].browser_download_url }}
-        download-url-linux-x64: ${{ fromJSON(steps.create_release.outputs.assets)[1].browser_download_url }}
-        download-url-macos-arm64: ${{ fromJSON(steps.create_release.outputs.assets)[2].browser_download_url }}
-        download-url-macos-x64: ${{ fromJSON(steps.create_release.outputs.assets)[2].browser_download_url }}
-        download-url-win-arm64: ${{ fromJSON(steps.create_release.outputs.assets)[3].browser_download_url }}
-        download-url-win-x64: ${{ fromJSON(steps.create_release.outputs.assets)[4].browser_download_url }}
